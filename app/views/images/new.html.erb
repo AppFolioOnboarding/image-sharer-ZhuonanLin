@@ -1,4 +1,9 @@
 <h1> Let's submit an image url! </h1>
+<% if flash[:notice].present? %>
+  <div class="alert alert-danger" role="alert">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
 <%= simple_form_for @image do |f| %>
   <%= f.input :link %>
   <%= f.button :submit %>
