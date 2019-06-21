@@ -1,4 +1,4 @@
 <div class="alert alert-success" role="alert">
   <%= flash[:notice] %>
 </div>
-<%= image_tag @image[:link] %>
+<%= image_tag(@image.link, class: 'image-max-width') %>
