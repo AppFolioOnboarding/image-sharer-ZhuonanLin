@@ -37,4 +37,31 @@ class ImagesCotrollerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'img[src="https://www.google.com"]', 1
   end
+
+  def test_index
+    Image.create!(link: 'https://www.google.com')
+
+    get images_path
+
+    assert_response :ok
+    assert_select 'img[src="https://www.google.com"]', 1
+  end
+
+  def test_index__most_recent_show_first
+    links = ['https://www.google.com', 'https://www.facebook.com']
+    links.each do |link|
+      Image.create!(link: link)
+    end
+    links.reverse!
+
+    get images_path
+
+    assert_response :ok
+    assert_select 'img' do |images|
+      images.each_with_index do |image, idx|
+        assert_equal image.attribute('class').value, 'image-max-width'
+        assert_equal image.attribute('src').value, links[idx]
+      end
+    end
+  end
 end
