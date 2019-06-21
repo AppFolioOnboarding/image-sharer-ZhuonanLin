@@ -16,3 +16,12 @@
  .image-max-width {
   max-width: 400px;
  }
+ .image-block{
+  overflow: hidden;
+}
+.image-content {
+  float:left;
+}
+.image-tag {
+  float: left;
+}

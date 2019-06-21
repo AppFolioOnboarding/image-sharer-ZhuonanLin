@@ -45,12 +45,13 @@ class ImagesCotrollerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index
-    Image.create!(link: 'https://www.google.com')
+    Image.create!(link: 'https://www.google.com', tag_list: 'google')
 
     get images_path
 
     assert_response :ok
     assert_select 'img[src="https://www.google.com"]', 1
+    assert_select 'li', count: 1, text: 'google'
   end
 
   def test_index__most_recent_show_first
