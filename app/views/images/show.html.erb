@@ -1,4 +1,9 @@
 <div class="alert alert-success" role="alert">
   <%= flash[:notice] %>
 </div>
+<ul>
+  <% @image.tag_list.each do |tag| %>
+    <li><%= tag %></li>
+  <% end %>
+</ul>
 <%= image_tag(@image.link, class: 'image-max-width') %>

@@ -31,11 +31,17 @@ class ImagesCotrollerTest < ActionDispatch::IntegrationTest
   end
 
   def test_show
-    Image.create!(link: 'https://www.google.com')
+    tag_lists = %w[google search]
+    Image.create!(link: 'https://www.google.com', tag_list: tag_lists)
     get image_path(Image.last)
 
     assert_response :ok
     assert_select 'img[src="https://www.google.com"]', 1
+    assert_select 'li' do |lis|
+      lis.each_with_index do |li, idx|
+        assert_equal li.children.text, tag_lists[idx]
+      end
+    end
   end
 
   def test_index
