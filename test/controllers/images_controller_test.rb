@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ImagesCotrollerTest < ActionDispatch::IntegrationTest
   def test_create__success
-    image_params = { link: 'https://www.google.com' }
+    image_params = { link: 'https://www.google.com', tag_list: 'google' }
 
     assert_difference 'Image.count' do
       post images_path, params: { image: image_params }
