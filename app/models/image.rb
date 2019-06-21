@@ -1,4 +1,6 @@
 class Image < ApplicationRecord
+  acts_as_taggable
+
   validate :url_must_be_valid
 
   def url_must_be_valid

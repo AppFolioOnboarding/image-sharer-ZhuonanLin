@@ -26,4 +26,17 @@ class ImageTest < ActiveSupport::TestCase
     assert_equal false, image.valid?
     assert_equal ['must be a valid URL link!'], image.errors.messages[:link]
   end
+
+  def test_create_image__with_tag
+    assert_difference 'Image.count' do
+      image = Image.create!(link: 'http://www.google.com', tag_list: 'google')
+      assert_equal ['google'], image.tag_list
+    end
+  end
+
+  def test_create_image__without_tag
+    assert_difference 'Image.count' do
+      Image.create!(link: 'http://www.google.com')
+    end
+  end
 end
