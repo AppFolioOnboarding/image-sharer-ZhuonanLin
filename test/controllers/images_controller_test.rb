@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ImagesCotrollerTest < ActionDispatch::IntegrationTest
   def test_create__success
-    image_params = { link: 'https://www.google.com' }
+    image_params = { link: 'https://www.google.com', tag_list: 'google' }
 
     assert_difference 'Image.count' do
       post images_path, params: { image: image_params }
@@ -31,20 +31,27 @@ class ImagesCotrollerTest < ActionDispatch::IntegrationTest
   end
 
   def test_show
-    Image.create!(link: 'https://www.google.com')
+    tag_lists = %w[google search]
+    Image.create!(link: 'https://www.google.com', tag_list: tag_lists)
     get image_path(Image.last)
 
     assert_response :ok
     assert_select 'img[src="https://www.google.com"]', 1
+    assert_select 'li' do |lis|
+      lis.each_with_index do |li, idx|
+        assert_equal li.children.text, tag_lists[idx]
+      end
+    end
   end
 
   def test_index
-    Image.create!(link: 'https://www.google.com')
+    Image.create!(link: 'https://www.google.com', tag_list: 'google')
 
     get images_path
 
     assert_response :ok
     assert_select 'img[src="https://www.google.com"]', 1
+    assert_select 'li', count: 1, text: 'google'
   end
 
   def test_index__most_recent_show_first
