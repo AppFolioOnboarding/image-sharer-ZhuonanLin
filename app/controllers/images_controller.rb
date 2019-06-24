@@ -25,6 +25,7 @@ class ImagesController < ApplicationController
                 Image.all
               end
     @images = @images.order(created_at: :desc)
+    flash.now[:notice] = 'You are manually filtering by a nonexistent tag!' if @images.empty?
   end
 
   private

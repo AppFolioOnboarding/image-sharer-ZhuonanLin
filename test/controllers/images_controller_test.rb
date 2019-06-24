@@ -91,4 +91,13 @@ class ImagesCotrollerTest < ActionDispatch::IntegrationTest
       end
     end
   end
+
+  def test_index__manually_filter_by_a_nonexistent_tag
+    Image.create!(link: 'https://www.google.com', tag_list: 'google')
+
+    get images_path, params: { tag: 'facebook' }
+
+    assert_response :ok
+    assert_select '.alert-danger', 'You are manually filtering by a nonexistent tag!'
+  end
 end
