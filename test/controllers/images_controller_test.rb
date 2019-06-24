@@ -110,4 +110,14 @@ class ImagesCotrollerTest < ActionDispatch::IntegrationTest
     assert_redirected_to images_path
     assert_equal 'You have successfully deleted the image!', flash[:success]
   end
+
+  def test_destroy__failure
+    Image.create!(link: 'https://www.google.com', tag_list: 'google')
+
+    assert_no_difference 'Image.count' do
+      delete image_path('image.id')
+    end
+    assert_redirected_to images_path
+    assert_equal 'You are deleting a nonexistent image!', flash[:notice]
+  end
 end

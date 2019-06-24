@@ -29,9 +29,13 @@ class ImagesController < ApplicationController
   end
 
   def destroy
-    Image.destroy(params[:id])
+    begin
+      Image.destroy(params[:id])
+      flash[:success] = 'You have successfully deleted the image!'
+    rescue ActiveRecord::RecordNotFound
+      flash[:notice] = 'You are deleting a nonexistent image!'
+    end
 
-    flash[:success] = 'You have successfully deleted the image!'
     redirect_to images_path
   end
 
