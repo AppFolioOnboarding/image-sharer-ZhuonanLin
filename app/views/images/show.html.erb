@@ -1,6 +1,8 @@
-<div class="alert alert-success" role="alert">
-  <%= flash[:notice] %>
-</div>
+<% if flash[:notice].present? %>
+  <div class="alert alert-success" role="alert">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
 <ul>
   <% @image.tag_list.each do |tag| %>
     <li><%= tag %></li>
