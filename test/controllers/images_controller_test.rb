@@ -71,4 +71,33 @@ class ImagesCotrollerTest < ActionDispatch::IntegrationTest
       end
     end
   end
+
+  def test_index__filter_by_click_on_tag
+    image_params = [{ link: 'https://www.facebok.com', tag_list: 'facebook, socialmedia' },
+                    { link: 'https://www.google.com', tag_list: 'google, search' },
+                    { link: 'https://www.bing.com', tag_list: 'bing, search' }]
+    image_params.each do |image_param|
+      Image.create!(image_param)
+    end
+    image_params.reverse!
+
+    get images_path, params: { tag: 'search' }
+
+    assert_response :ok
+    assert_select 'img', 2
+    assert_select 'img' do |images|
+      images.each_with_index do |image, idx|
+        assert_equal image.attribute('src').value, image_params[idx][:link]
+      end
+    end
+  end
+
+  def test_index__manually_filter_by_a_nonexistent_tag
+    Image.create!(link: 'https://www.google.com', tag_list: 'google')
+
+    get images_path, params: { tag: 'facebook' }
+
+    assert_response :ok
+    assert_select '.alert-danger', 'You are manually filtering by a nonexistent tag!'
+  end
 end

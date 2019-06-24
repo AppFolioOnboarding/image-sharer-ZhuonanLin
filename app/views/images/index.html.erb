@@ -1,14 +1,18 @@
 <h1> Welcome to images index!!! </h1>
 <%= link_to "Submit a new image!",  new_image_path %>
 <br>
-
+<% if flash[:notice].present? %>
+  <div class="alert alert-danger" role="alert">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
 <% @images.each do |image|%>
     <div class="image-block">
         <div class="image-content"><%= image_tag(image.link, class: 'image-max-width') %></div>
         <div class="image-tag">
             <ul>
             <% image.tag_list.each do |tag| %>
-                <li><%= tag %></li>
+                <li><%= link_to tag, images_path(tag: tag) %></li>
             <% end %>
             </ul>
         </div>
