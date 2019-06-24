@@ -5,7 +5,12 @@
   <div class="alert alert-danger" role="alert">
     <%= flash[:notice] %>
   </div>
+<% elsif flash[:success].present? %>
+  <div class="alert alert-success" role="alert">
+    <%= flash[:success] %>
+  </div>
 <% end %>
+
 <% @images.each do |image|%>
     <div class="image-block">
         <div class="image-content"><%= link_to image_tag(image.link, class: 'image-max-width'), image_path(image.id) %></div>

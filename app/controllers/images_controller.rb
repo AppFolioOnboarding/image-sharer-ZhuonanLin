@@ -28,6 +28,13 @@ class ImagesController < ApplicationController
     flash.now[:notice] = 'You are manually filtering by a nonexistent tag!' if @images.empty?
   end
 
+  def destroy
+    Image.destroy(params[:id])
+
+    flash[:success] = 'You have successfully deleted the image!'
+    redirect_to images_path
+  end
+
   private
 
   def image_params
