@@ -1,7 +1,6 @@
 import React from 'react';
 import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-export default function FeedbackForm() {
   return (
     <Form>
       <Row form>
@@ -12,6 +11,7 @@ export default function FeedbackForm() {
           </FormGroup>
         </Col>
       </Row>
+export default class FeedbackForm extends React.Component {
 
       <Row form>
         <Col md={6}>
