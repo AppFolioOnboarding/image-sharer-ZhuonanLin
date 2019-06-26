@@ -1,12 +1,16 @@
 import React from 'react';
 import { Alert, Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { observable, action } from 'mobx';
+import { observer } from 'mobx-react';
 
 import { post } from '../utils/helper';
+@observer
 export default class FeedbackForm extends React.Component {
-  name = '';
-  comment = '';
-  message = '';
+  @observable name = '';
+  @observable comment = '';
+  @observable message = '';
 
+  @action
   onSubmit = async () =>
     post('api/feedbacks', { name: this.name, comment: this.comment })
       .then((res) => {
@@ -17,10 +21,12 @@ export default class FeedbackForm extends React.Component {
       // eslint-disable-next-line no-return-assign
       .catch(res => this.message = res.data.message);
 
+  @action
   setName = (name) => {
     this.name = name;
   }
 
+  @action
   setComment = (comment) => {
     this.comment = comment;
   }
