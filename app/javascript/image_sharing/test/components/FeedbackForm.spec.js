@@ -24,4 +24,38 @@ describe('<FeedbackForm />', () => {
     assert.strictEqual(comments.find('Label').children().text(), 'Comments:');
     assert.strictEqual(comments.find('Input').length, 1);
   });
+
+  it('should record and set name and comment input change correctly!', () => {
+    const wrapper = shallow(<FeedbackForm />);
+    let nameInput = wrapper.find('Input').at(0);
+    let commentInput = wrapper.find('Input').at(1);
+
+    nameInput.simulate('change', { target: { value: 'name' } });
+    commentInput.simulate('change', { target: { value: 'comment' } });
+    wrapper.update();
+
+    nameInput = wrapper.find('Input').at(0);
+    commentInput = wrapper.find('Input').at(1);
+
+    assert.strictEqual(nameInput.prop('value'), 'name');
+    assert.strictEqual(commentInput.prop('value'), 'comment');
+  });
+
+  describe('setName', () => {
+    it('should set correctly', () => {
+      const wrapper = shallow(<FeedbackForm />);
+      wrapper.instance().setName('name');
+
+      assert.strictEqual(wrapper.instance().name, 'name');
+    });
+  });
+
+  describe('setComment', () => {
+    it('should set correctly', () => {
+      const wrapper = shallow(<FeedbackForm />);
+      wrapper.instance().setComment('comment');
+
+      assert.strictEqual(wrapper.instance().comment, 'comment');
+    });
+  });
 });
