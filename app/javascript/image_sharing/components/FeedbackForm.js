@@ -10,9 +10,11 @@ import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
           </FormGroup>
         </Col>
       </Row>
+import { post } from '../utils/helper';
 export default class FeedbackForm extends React.Component {
   name = '';
   comment = '';
+  message = '';
 
       <Row form>
         <Col md={6}>
@@ -21,9 +23,18 @@ export default class FeedbackForm extends React.Component {
           </FormGroup>
         </Col>
       </Row>
-      <Button color="primary">Submit</Button>
     </Form>
   );
+  onSubmit = async () =>
+    post('api/feedbacks', { name: this.name, comment: this.comment })
+      .then((res) => {
+        this.message = res.message;
+        this.name = '';
+        this.comment = '';
+      })
+      // eslint-disable-next-line no-return-assign
+      .catch(res => this.message = res.data.message);
+
   setName = (name) => {
     this.name = name;
   }
@@ -33,4 +44,5 @@ export default class FeedbackForm extends React.Component {
   }
                 <Input type="text" name="name" id="Name" onChange={e => this.setName(e.target.value)} value={this.name} />
                 <Input type="textarea" name="comments" id="Comments" onChange={e => this.setComment(e.target.value)} value={this.comment} />
+          <Button color="primary" onClick={this.onSubmit}>Submit</Button>
 }
