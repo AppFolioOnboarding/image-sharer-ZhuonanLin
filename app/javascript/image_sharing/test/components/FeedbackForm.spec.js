@@ -33,6 +33,15 @@ describe('<FeedbackForm />', () => {
     assert.strictEqual(comments.find('Input').length, 1);
   });
 
+  it('should render the message correctly', () => {
+    const wrapper = shallow(<FeedbackForm />);
+    wrapper.instance().message = 'message';
+    const alert = wrapper.find('Alert');
+
+    assert.strictEqual(alert.length, 1);
+    assert.strictEqual(alert.children().text(), 'message');gi
+  });
+
   it('should submit feedback onclick', () => {
     const wrapper = shallow(<FeedbackForm />);
     const button = wrapper.find('Button');

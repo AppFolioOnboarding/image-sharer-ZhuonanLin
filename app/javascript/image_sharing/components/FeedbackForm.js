@@ -1,30 +1,12 @@
 import React from 'react';
-import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Alert, Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-  return (
-    <Form>
-      <Row form>
-        <Col md={6}>
-          <FormGroup>
-            <Input type="text" name="name" id="Name" />
-          </FormGroup>
-        </Col>
-      </Row>
 import { post } from '../utils/helper';
 export default class FeedbackForm extends React.Component {
   name = '';
   comment = '';
   message = '';
 
-      <Row form>
-        <Col md={6}>
-          <FormGroup>
-            <Label for="Comments">Comments:</Label>
-          </FormGroup>
-        </Col>
-      </Row>
-    </Form>
-  );
   onSubmit = async () =>
     post('api/feedbacks', { name: this.name, comment: this.comment })
       .then((res) => {
@@ -42,7 +24,34 @@ export default class FeedbackForm extends React.Component {
   setComment = (comment) => {
     this.comment = comment;
   }
+
+  render() {
+    return (
+      <div>
+        <Alert color="light">
+          {this.message}
+        </Alert>
+        <Form>
+          <Row form>
+            <Col md={6}>
+              <FormGroup>
+                <Label for="Name">Your name:</Label>
                 <Input type="text" name="name" id="Name" onChange={e => this.setName(e.target.value)} value={this.name} />
+              </FormGroup>
+            </Col>
+          </Row>
+
+          <Row form>
+            <Col md={6}>
+              <FormGroup>
+                <Label for="Comments">Comments:</Label>
                 <Input type="textarea" name="comments" id="Comments" onChange={e => this.setComment(e.target.value)} value={this.comment} />
+              </FormGroup>
+            </Col>
+          </Row>
           <Button color="primary" onClick={this.onSubmit}>Submit</Button>
+        </Form>
+      </div>
+    );
+  }
 }
